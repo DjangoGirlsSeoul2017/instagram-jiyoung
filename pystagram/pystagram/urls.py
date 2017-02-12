@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from photos import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-]
+    url(r'^photos/(?P<pk>\d+)/$', views.detail, name='detail'),
+    url(r'^photos/upload/$', views.create, name='create'),
+    url(r'^hidden-photos/(?P<pk>\d+)/$', views.detail, kwargs={'hidden':True}),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
